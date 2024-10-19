@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Detection Example</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <h1>Face Detection Example</h1>
+
+    <h2>Upload Gallery Images</h2>
+    <input type="file" id="galleryUpload" accept="image/*" multiple />
+
+    <h2>Upload Thief Image</h2>
+    <input type="file" id="thiefUpload" accept="image/*" />
+
+    <!-- Add the Start Detection Button -->
+    <button id="startDetection" disabled>Start Face Detection</button>
+
+    <!-- Sections for displaying images -->
+    <div id="imageSections">
+      <div id="unknownSection">
+        <h2>Unknown Images</h2>
+        <div id="unknownImages"></div>
+      </div>
+      <div id="thiefSection">
+        <h2>Thief Images</h2>
+        <div id="thiefImages"></div>
+      </div>
+    </div>
+
+    <div id="results"></div>
+  </body>
+</html>
