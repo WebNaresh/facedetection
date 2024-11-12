@@ -4,29 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Face Detection Example</title>
+
+    <!-- TensorFlow.js and face-api.js for face detection functionality -->
     <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
+    <!-- JSZip for exporting reports -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+
+    <!-- Custom JavaScript file for detection logic (e.g., event handling and face detection functions) -->
     <script type="module" src="script.js"></script>
+
+    <!-- Tailwind CSS for styling the page -->
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
   </head>
+
   <body
     class="bg-gray-100 text-gray-800 p-6 min-h-screen flex justify-center items-center"
   >
-    <!-- Main container -->
+    <!-- Main container to center and contain the content on the page -->
     <div class="w-full max-w-6xl bg-white shadow-lg rounded-lg p-6">
       <h1 class="text-2xl font-bold text-blue-700 text-center mb-6">
         Advanced Image Detection
       </h1>
 
-      <!-- Flex container to divide into left and right sections -->
+      <!-- Section 1: Case Details & Image Upload Forms -->
       <div class="flex flex-col lg:flex-row gap-6">
-        <!-- Left section (smaller width) -->
+        <!-- Left panel for case details and file uploads -->
         <div class="flex flex-col space-y-4 w-full lg:w-1/4">
-          <!-- Case Details Input Section -->
+          <!-- Input fields for case details (fill in the case information before starting detection) -->
           <h2 class="text-xl font-semibold text-blue-700">Case Details</h2>
           <div class="space-y-4">
             <div>
@@ -55,7 +64,7 @@
               >
               <input
                 type="text"
-                id="caseName"
+                id="caseOfficer"
                 class="p-2 border border-gray-300 rounded w-full"
               />
             </div>
@@ -71,15 +80,16 @@
             </div>
           </div>
 
-          <!-- Police officer image section -->
+          <!-- Optional police image preview (illustrative purposes) -->
           <div id="policeImageContainer" class="text-center mb-4">
             <img
               src="img/police.jpeg"
-              alt="Police officer looking through a magnifying glass"
-              id="policeImage"
+              alt="Police officer"
               class="w-44 mx-auto shadow-md rounded-full"
             />
           </div>
+
+          <!-- Image upload fields: Gallery Images for comparison and Thief Image -->
           <h2 class="text-xl font-semibold text-blue-700">
             Upload Gallery Images
           </h2>
@@ -100,13 +110,14 @@
             accept="image/*"
             class="p-2 border border-gray-300 rounded cursor-pointer"
           />
-          <div id="thiefPreview" class="mt-2"></div>
-          <!-- Preview thief image -->
 
-          <!-- Threshold Input for matching faces -->
-          <label for="threshold" class="font-semibold text-gray-700"
-            >Match Threshold (default 0.6):</label
-          >
+          <!-- Placeholder for the thief image preview (display after file selection) -->
+          <div id="thiefPreview" class="mt-2"></div>
+
+          <!-- Threshold Input with Instructions -->
+          <label for="threshold" class="font-semibold text-gray-700">
+            Match Threshold (default 0.6):
+          </label>
           <input
             type="number"
             id="threshold"
@@ -116,9 +127,15 @@
             max="1.0"
             class="p-2 border border-gray-300 rounded w-24"
           />
+          <p class="text-gray-600 text-sm mt-1">
+            <strong>Note:</strong> Lower values increase matching sensitivity,
+            detecting more potential matches but with less accuracy (may cause
+            false positives). Higher values improve accuracy, but fewer matches
+            may be detected (may cause false negatives).
+          </p>
 
-          <!-- Start Detection and Reset Buttons -->
-          <div class="flex space-x-4">
+          <!-- Buttons to start detection or reset the form -->
+          <div class="flex space-x-4 mt-4">
             <button
               id="startDetection"
               disabled
@@ -135,11 +152,12 @@
             </button>
           </div>
 
-          <!-- Progress Indicator -->
+          <!-- Progress indicator (shown when detection is in progress) -->
           <div id="progress" class="text-blue-600 font-semibold mt-4 hidden">
             Processing...
           </div>
-          <!-- Timer Result Section -->
+
+          <!-- Timer results section (appears after detection) -->
           <div id="timerSection" class="mt-6">
             <h2 class="text-xl font-semibold text-blue-700 text-center">
               Timer Result
@@ -151,9 +169,9 @@
           </div>
         </div>
 
-        <!-- Right section (larger width) with Thief and Unknown Sections-->
+        <!-- Right panel for displaying thief and gallery images (uploaded by the user) -->
         <div class="flex flex-col space-y-6 w-full lg:w-3/4">
-          <!-- Thief Images Section -->
+          <!-- Display thief images (input in thiefUpload) -->
           <div id="thiefSection" class="bg-gray-50 rounded-lg p-4 shadow">
             <h2 class="text-xl font-semibold text-gray-700 text-center">
               Thief Images
@@ -161,7 +179,7 @@
             <div id="thiefImages" class="flex flex-wrap gap-2 mt-4"></div>
           </div>
 
-          <!-- Unknown Images Section -->
+          <!-- Display gallery images (input in galleryUpload) -->
           <div id="unknownSection" class="bg-gray-50 rounded-lg p-4 shadow">
             <h2 class="text-xl font-semibold text-gray-700 text-center">
               Unknown Images
@@ -171,7 +189,7 @@
         </div>
       </div>
 
-      <!-- Report Section -->
+      <!-- Section 3: Detection results and downloadable report (appears after detection completes) -->
       <div
         id="reportSection"
         class="bg-gray-50 rounded-lg p-4 shadow mt-6 hidden"
@@ -180,6 +198,8 @@
           Detection Report
         </h2>
         <div id="reportContent" class="mt-4"></div>
+
+        <!-- Button to download the generated detection report -->
         <button
           id="downloadReport"
           class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
