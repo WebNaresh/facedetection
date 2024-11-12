@@ -1,0 +1,139 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body styling */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f4f8;
+  color: #333;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Main container styling */
+h1 {
+  color: #00509e;
+  margin-bottom: 20px;
+  font-size: 2em;
+  text-align: center;
+}
+
+h2 {
+  color: #00509e;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input and Button styling */
+input[type="file"],
+input[type="number"] {
+  margin: 10px 0;
+  padding: 8px 10px;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+}
+
+button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+/* Button color variations */
+#startDetection {
+  background-color: #28a745;
+}
+#startDetection:disabled {
+  background-color: #ccc;
+}
+
+#reset {
+  background-color: #dc3545;
+}
+#reset:disabled {
+  background-color: #ccc;
+}
+
+button:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+/* Container for progress indicator */
+#progress {
+  font-weight: bold;
+  color: #00509e;
+  padding: 10px;
+  font-size: 1.1em;
+}
+
+/* Sections for displaying images */
+#unknownSection,
+#thiefSection {
+  background-color: #e9f1fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Image styling */
+#unknownImages img,
+#thiefImages img,
+#thiefPreview img {
+  margin: 5px;
+  width: 80px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75em;
+  }
+
+  h2 {
+    font-size: 1.25em;
+  }
+
+  input[type="file"],
+  input[type="number"] {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  button {
+    font-size: 0.9em;
+    padding: 8px 15px;
+  }
+
+  #unknownSection,
+  #thiefSection {
+    width: 90%;
+  }
+}

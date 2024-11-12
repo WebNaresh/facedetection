@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Detection Example</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script type="module" src="script.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-gray-100 text-gray-800 p-6 min-h-screen flex justify-center items-center"
+  >
+    <!-- Main container -->
+    <div class="w-full max-w-6xl bg-white shadow-lg rounded-lg p-6">
+      <h1 class="text-2xl font-bold text-blue-700 text-center mb-6">
+        Advanced Image Detection
+      </h1>
+
+      <!-- Flex container to divide into left and right sections -->
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Left section (smaller width) -->
+        <div class="flex flex-col space-y-4 w-full lg:w-1/4">
+          <!-- Case Details Input Section -->
+          <h2 class="text-xl font-semibold text-blue-700">Case Details</h2>
+          <div class="space-y-4">
+            <div>
+              <label for="caseNumber" class="font-semibold text-gray-700"
+                >Case Number:</label
+              >
+              <input
+                type="text"
+                id="caseNumber"
+                class="p-2 border border-gray-300 rounded w-full"
+              />
+            </div>
+            <div>
+              <label for="caseName" class="font-semibold text-gray-700"
+                >Case Name:</label
+              >
+              <input
+                type="text"
+                id="caseName"
+                class="p-2 border border-gray-300 rounded w-full"
+              />
+            </div>
+            <div>
+              <label for="caseOfficer" class="font-semibold text-gray-700"
+                >Case Officer:</label
+              >
+              <input
+                type="text"
+                id="caseName"
+                class="p-2 border border-gray-300 rounded w-full"
+              />
+            </div>
+            <div>
+              <label for="caseDetails" class="font-semibold text-gray-700"
+                >Other Details:</label
+              >
+              <textarea
+                id="caseDetails"
+                class="p-2 border border-gray-300 rounded w-full"
+                rows="4"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Police officer image section -->
+          <div id="policeImageContainer" class="text-center mb-4">
+            <img
+              src="img/police.jpeg"
+              alt="Police officer looking through a magnifying glass"
+              id="policeImage"
+              class="w-44 mx-auto shadow-md rounded-full"
+            />
+          </div>
+          <h2 class="text-xl font-semibold text-blue-700">
+            Upload Gallery Images
+          </h2>
+          <input
+            type="file"
+            id="galleryUpload"
+            accept="image/*"
+            multiple
+            class="p-2 border border-gray-300 rounded cursor-pointer"
+          />
+
+          <h2 class="text-xl font-semibold text-blue-700">
+            Upload Thief Image
+          </h2>
+          <input
+            type="file"
+            id="thiefUpload"
+            accept="image/*"
+            class="p-2 border border-gray-300 rounded cursor-pointer"
+          />
+          <div id="thiefPreview" class="mt-2"></div>
+          <!-- Preview thief image -->
+
+          <!-- Threshold Input for matching faces -->
+          <label for="threshold" class="font-semibold text-gray-700"
+            >Match Threshold (default 0.6):</label
+          >
+          <input
+            type="number"
+            id="threshold"
+            value="0.6"
+            step="0.1"
+            min="0.1"
+            max="1.0"
+            class="p-2 border border-gray-300 rounded w-24"
+          />
+
+          <!-- Start Detection and Reset Buttons -->
+          <div class="flex space-x-4">
+            <button
+              id="startDetection"
+              disabled
+              class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:bg-gray-300"
+            >
+              Start Face Detection
+            </button>
+            <button
+              id="reset"
+              disabled
+              class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 disabled:bg-gray-300"
+            >
+              Reset
+            </button>
+          </div>
+
+          <!-- Progress Indicator -->
+          <div id="progress" class="text-blue-600 font-semibold mt-4 hidden">
+            Processing...
+          </div>
+          <!-- Timer Result Section -->
+          <div id="timerSection" class="mt-6">
+            <h2 class="text-xl font-semibold text-blue-700 text-center">
+              Timer Result
+            </h2>
+            <div
+              id="results"
+              class="text-center text-lg font-semibold text-gray-700 mt-2"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Right section (larger width) with Thief and Unknown Sections-->
+        <div class="flex flex-col space-y-6 w-full lg:w-3/4">
+          <!-- Thief Images Section -->
+          <div id="thiefSection" class="bg-gray-50 rounded-lg p-4 shadow">
+            <h2 class="text-xl font-semibold text-gray-700 text-center">
+              Thief Images
+            </h2>
+            <div id="thiefImages" class="flex flex-wrap gap-2 mt-4"></div>
+          </div>
+
+          <!-- Unknown Images Section -->
+          <div id="unknownSection" class="bg-gray-50 rounded-lg p-4 shadow">
+            <h2 class="text-xl font-semibold text-gray-700 text-center">
+              Unknown Images
+            </h2>
+            <div id="unknownImages" class="flex flex-wrap gap-2 mt-4"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report Section -->
+      <div
+        id="reportSection"
+        class="bg-gray-50 rounded-lg p-4 shadow mt-6 hidden"
+      >
+        <h2 class="text-xl font-semibold text-gray-700 text-center">
+          Detection Report
+        </h2>
+        <div id="reportContent" class="mt-4"></div>
+        <button
+          id="downloadReport"
+          class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
+        >
+          Download Report
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
