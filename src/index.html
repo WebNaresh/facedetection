@@ -11,6 +11,7 @@
 
     <!-- JSZip for exporting reports -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
     <!-- Custom JavaScript file for detection logic (e.g., event handling and face detection functions) -->
     <script type="module" src="script.js"></script>
@@ -198,6 +199,12 @@
           Detection Report
         </h2>
         <div id="reportContent" class="mt-4"></div>
+        <button
+          id="downloadThiefImagesPdf"
+          class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
+        >
+          Download Thief Images as PDF
+        </button>
 
         <!-- Button to download the generated detection report -->
         <button

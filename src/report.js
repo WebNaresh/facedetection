@@ -1,11 +1,18 @@
-export function generateReport(detectedFaces, threshold, galleryImages, thiefImage) {
+export function generateReport(
+  detectedFaces,
+  threshold,
+  galleryImages,
+  thiefImage
+) {
   const reportContent = document.getElementById("reportContent");
   const reportSection = document.getElementById("reportSection");
 
   // Get case details from the input fields
-  const caseNumber = document.getElementById("caseNumber").value || "Not Provided";
+  const caseNumber =
+    document.getElementById("caseNumber").value || "Not Provided";
   const caseName = document.getElementById("caseName").value || "Not Provided";
-  const caseDetails = document.getElementById("caseDetails").value || "Not Provided";
+  const caseDetails =
+    document.getElementById("caseDetails").value || "Not Provided";
 
   // Clear previous report content
   reportContent.innerHTML = "";
@@ -20,14 +27,19 @@ export function generateReport(detectedFaces, threshold, galleryImages, thiefIma
     <p><strong>Thief Image:</strong> ${thiefImage.name}</p>
     <p><strong>Detection Threshold:</strong> ${threshold}</p>
     <p><strong>Number of Faces Detected:</strong> ${detectedFaces.length}</p>
-    <p><strong>Matching Faces Found:</strong> ${detectedFaces.filter(face => face.isMatch).length}</p>
+    <p><strong>Matching Faces Found:</strong> ${
+      detectedFaces.filter((face) => face.isMatch).length
+    }</p>
   `;
 
   // List matching faces with details
-  if (detectedFaces.some(face => face.isMatch)) {
+  if (detectedFaces.some((face) => face.isMatch)) {
     const matchList = detectedFaces
-      .filter(face => face.isMatch)
-      .map(face => `<li>Match in ${face.imageName} with confidence ${face.confidence}</li>`)
+      .filter((face) => face.isMatch)
+      .map(
+        (face) =>
+          `<li>Match in ${face.imageName} with confidence ${face.confidence}</li>`
+      )
       .join("");
 
     reportContent.innerHTML += `
@@ -42,7 +54,9 @@ export function generateReport(detectedFaces, threshold, galleryImages, thiefIma
   const thiefImageHTML = `
     <h3 class="text-lg font-semibold text-gray-700 mt-4">Thief Image:</h3>
     <div class="text-center">
-      <img src="${URL.createObjectURL(thiefImage)}" alt="Thief Image" class="w-32 mx-auto rounded-md shadow-md" />
+      <img src="${URL.createObjectURL(
+        thiefImage
+      )}" alt="Thief Image" class="w-32 mx-auto rounded-md shadow-md" />
     </div>
   `;
   reportContent.innerHTML += thiefImageHTML;
@@ -51,10 +65,27 @@ export function generateReport(detectedFaces, threshold, galleryImages, thiefIma
   reportSection.classList.remove("hidden");
 
   // Add report download functionality
-  document.getElementById("downloadReport").onclick = () => downloadReportAsText(detectedFaces, threshold, galleryImages, thiefImage, caseNumber, caseName, caseDetails);
+  document.getElementById("downloadReport").onclick = () =>
+    downloadReportAsText(
+      detectedFaces,
+      threshold,
+      galleryImages,
+      thiefImage,
+      caseNumber,
+      caseName,
+      caseDetails
+    );
 }
 
-function downloadReportAsText(detectedFaces, threshold, galleryImages, thiefImage, caseNumber, caseName, caseDetails) {
+function downloadReportAsText(
+  detectedFaces,
+  threshold,
+  galleryImages,
+  thiefImage,
+  caseNumber,
+  caseName,
+  caseDetails
+) {
   let reportText = `Face Detection Report\n\n`;
   reportText += `Case Number: ${caseNumber}\n`;
   reportText += `Case Name: ${caseName}\n`;
@@ -63,13 +94,15 @@ function downloadReportAsText(detectedFaces, threshold, galleryImages, thiefImag
   reportText += `Thief Image: ${thiefImage.name}\n`;
   reportText += `Detection Threshold: ${threshold}\n`;
   reportText += `Number of Faces Detected: ${detectedFaces.length}\n`;
-  reportText += `Matching Faces Found: ${detectedFaces.filter(face => face.isMatch).length}\n\n`;
+  reportText += `Matching Faces Found: ${
+    detectedFaces.filter((face) => face.isMatch).length
+  }\n\n`;
 
-  if (detectedFaces.some(face => face.isMatch)) {
+  if (detectedFaces.some((face) => face.isMatch)) {
     reportText += `Match Details:\n`;
     detectedFaces
-      .filter(face => face.isMatch)
-      .forEach(face => {
+      .filter((face) => face.isMatch)
+      .forEach((face) => {
         reportText += `- Match in ${face.imageName} with confidence ${face.confidence}\n`;
       });
   } else {
