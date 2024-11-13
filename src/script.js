@@ -63,7 +63,7 @@ async function compareFaces(detections, imageElement, file) {
     const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
     if (bestMatch.label === "Thief") {
       isThiefDetected = true;
-      drawThiefFace(imageElement, detection);
+      drawThiefFace(imageElement, detection); // Show only matched "Thief" images
       detectedFaces.push({
         imageName: file.name,
         confidence: bestMatch.distance.toFixed(2),
@@ -72,8 +72,8 @@ async function compareFaces(detections, imageElement, file) {
     }
   });
 
+  // Skip adding to detectedFaces or displaying if no match is found
   if (!isThiefDetected) {
-    displayUnknownImage(imageElement, file);
     detectedFaces.push({
       imageName: file.name,
       confidence: null,
@@ -83,46 +83,63 @@ async function compareFaces(detections, imageElement, file) {
 }
 
 function drawThiefFace(imageElement, detection) {
-  const canvas = faceapi.createCanvasFromMedia(imageElement);
+  // Create a canvas with willReadFrequently set to true
+  const canvas = document.createElement("canvas");
+  canvas.width = imageElement.width;
+  canvas.height = imageElement.height;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+
+  // Draw the detection on the canvas
   const container = document.getElementById("thiefImages");
 
+  // Match the canvas dimensions to the image for accurate drawing
   faceapi.matchDimensions(canvas, imageElement);
   faceapi.draw.drawDetections(canvas, [detection]);
 
+  // Adjust canvas size display settings
   imageElement.width = 80;
   canvas.width = 80;
   canvas.style.width = "80px";
   canvas.style.height = "80px";
 
+  // Save the image source for downloading and append to DOM
   thiefImages.push(imageElement.src);
-
   container.appendChild(imageElement);
   container.appendChild(canvas);
 }
 
-function displayUnknownImage(imageElement, file) {
-  const container = document.getElementById("unknownImages");
-  const img = document.createElement("img");
-
-  img.src = URL.createObjectURL(file);
-  img.alt = "Unknown Face";
-  img.width = 80;
-
-  img.onload = () => URL.revokeObjectURL(img.src);
-  container.appendChild(img);
+function displayUnknownImage(image) {
+  const unknownSection = document.getElementById("unknownImages");
+  if (!unknownSection) {
+    console.error("Element 'unknownImages' not found in the DOM");
+    return;
+  }
+  // Now it's safe to appendChild since unknownSection is confirmed to exist
+  unknownSection.appendChild(image);
 }
 
 // Timer implementation for detection process
 async function processGalleryImages(files) {
+  const totalImages = files.length;
+  const progressBar = document.getElementById("progressBar");
+  const currentImageText = document.getElementById("currentImage");
+  const totalImagesText = document.getElementById("totalImages");
+  const estimatedTimeText = document.getElementById("estimatedTime");
+
+  // Display the progress and set total image count
   document.getElementById("progress").style.display = "block";
+  totalImagesText.textContent = totalImages;
+
   detectedFaces = [];
+  let elapsedTimes = [];
 
-  const startTime = performance.now(); // Start timer
-
-  for (const file of files) {
+  for (let i = 0; i < totalImages; i++) {
+    const file = files[i];
     const imgElement = await faceapi.bufferToImage(file);
-    const detections = await detectFace(imgElement);
 
+    const startTime = performance.now(); // Start timer for each image
+
+    const detections = await detectFace(imgElement);
     if (detections.length > 0) {
       await compareFaces(detections, imgElement, file);
     } else {
@@ -133,17 +150,32 @@ async function processGalleryImages(files) {
         isMatch: false,
       });
     }
+
+    const endTime = performance.now(); // End timer for each image
+    const elapsedTime = (endTime - startTime) / 1000;
+    elapsedTimes.push(elapsedTime);
+
+    // Update progress display
+    currentImageText.textContent = i + 1;
+    progressBar.style.width = `${((i + 1) / totalImages) * 100}%`;
+
+    // Calculate estimated time remaining
+    const averageTimePerImage =
+      elapsedTimes.reduce((a, b) => a + b) / elapsedTimes.length;
+    const estimatedTimeRemaining =
+      (totalImages - (i + 1)) * averageTimePerImage;
+    estimatedTimeText.textContent = `Estimated time remaining: ${estimatedTimeRemaining.toFixed(
+      2
+    )} seconds`;
+
+    await new Promise((resolve) => setTimeout(resolve, 10)); // Small delay for smoother progress update
   }
 
   document.getElementById("progress").style.display = "none";
-
-  const endTime = performance.now(); // End timer
-  const elapsedTime = ((endTime - startTime) / 1000).toFixed(2); // Time in seconds
-
-  // Display the elapsed time
+  const totalElapsedTime = elapsedTimes.reduce((a, b) => a + b, 0).toFixed(2);
   document.getElementById(
     "results"
-  ).textContent = `Time taken for face detection: ${elapsedTime} seconds`;
+  ).textContent = `Time taken for face detection: ${totalElapsedTime} seconds`;
 
   const threshold =
     parseFloat(document.getElementById("threshold").value) || 0.6;
