@@ -23,15 +23,94 @@
     />
   </head>
 
-  <body
-    class="bg-gray-200 text-gray-900 min-h-screen flex justify-center items-center p-8"
-  >
-    <!-- Main container -->
-    <div class="w-full max-w-5xl bg-white shadow-lg rounded-lg p-8">
-      <h1 class="text-3xl font-bold text-indigo-700 text-center mb-8">
-        Image Detection System
-      </h1>
+  <body class="">
+    <nav
+      class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-800 shadow-lg p-4"
+    >
+      <div class="container mx-auto flex items-center justify-between py-3">
+        <!-- Brand Logo -->
+        <div class="flex items-center space-x-3">
+          <img
+            src="./img/police.jpeg"
+            alt="Logo"
+            class="h-20 w-20 rounded-full border-4 border-white shadow-lg"
+          />
+          <span class="text-white text-xl font-bold"
+            >Image Detection System</span
+          >
+        </div>
 
+        <!-- Desktop Links -->
+        <div class="hidden md:flex space-x-8 items-center">
+          <a
+            href="index.html"
+            class="text-white hover:text-indigo-300 font-semibold text-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >Home</a
+          >
+          <a
+            href="support.html"
+            class="text-white hover:text-indigo-300 font-semibold text-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >Support</a
+          >
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button
+            id="mobileMenuButton"
+            class="text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Links -->
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden mt-4 bg-indigo-600 text-center space-y-4 rounded-lg shadow-2xl transition-all duration-300 transform ease-in-out"
+      >
+        <a
+          href="index.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >Home</a
+        >
+        <a
+          href="about.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >About</a
+        >
+        <a
+          href="documentation.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >Documentation</a
+        >
+        <a
+          href="support.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >Support</a
+        >
+      </div>
+    </nav>
+    <!-- Date and time -->
+    <div class="bg-gray-100 p-4 text-center text-gray-700 font-semibold">
+      <p><span id="dateTime"></span></p>
+    </div>
+    <!-- Main container -->
+    <div class="w-full bg-white shadow-lg rounded-lg p-8">
       <!-- Section 1: Case Details & Image Upload Forms -->
       <div class="grid lg:grid-cols-2 gap-8">
         <!-- Left Panel: Case Details and Image Uploads -->
@@ -48,8 +127,9 @@
               <input
                 type="text"
                 id="caseNumber"
+                placeholder="Enter case number"
                 value="testing"
-                class="p-2 border border-gray-300 rounded w-full"
+                class="p-2 border input-field border-gray-300 rounded w-full"
               />
             </div>
             <div>
@@ -59,8 +139,9 @@
               <input
                 type="text"
                 id="caseName"
-                value="testing"
-                class="p-2 border border-gray-300 rounded w-full"
+                placeholder="value"
+                ="testing"
+                class="p-2 border input-field border-gray-300 rounded w-full"
               />
             </div>
             <div>
@@ -71,7 +152,7 @@
                 type="text"
                 id="caseOfficer"
                 value="testing"
-                class="p-2 border border-gray-300 rounded w-full"
+                class="p-2 border input-field border-gray-300 rounded w-full"
               />
             </div>
             <div>
@@ -81,7 +162,7 @@
               <textarea
                 id="caseDetails"
                 value="testing"
-                class="p-2 border border-gray-300 rounded w-full"
+                class="p-2 border input-field border-gray-300 rounded w-full"
                 rows="4"
               ></textarea>
             </div>
@@ -96,7 +177,7 @@
               id="galleryUpload"
               accept="image/*"
               multiple
-              class="p-2 border border-gray-300 rounded w-full cursor-pointer"
+              class="p-2 border input-file border-gray-300 rounded w-full cursor-pointer"
             />
 
             <h2 class="text-xl font-semibold text-indigo-600">
@@ -106,7 +187,7 @@
               type="file"
               id="thiefUpload"
               accept="image/*"
-              class="p-2 border border-gray-300 rounded w-full cursor-pointer"
+              class="p-2 border input-file border-gray-300 rounded w-full cursor-pointer"
             />
 
             <div
@@ -155,17 +236,6 @@
 
         <!-- Right Panel: Display Areas -->
         <div class="space-y-6">
-          <!-- Thief Image Display Section -->
-          <div id="thiefSection" class="bg-gray-50 p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">
-              Thief Images
-            </h2>
-            <div
-              id="thiefImages"
-              class="flex flex-wrap gap-2 mt-4 justify-center"
-            ></div>
-          </div>
-
           <!-- Real-Time Progress Section -->
           <div id="progress" class="bg-gray-50 p-6 rounded-lg shadow-md">
             <div
@@ -185,6 +255,16 @@
             <div
               id="estimatedTime"
               class="text-center text-sm text-gray-600"
+            ></div>
+          </div>
+          <!-- Thief Image Display Section -->
+          <div id="thiefSection" class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">
+              Thief Images
+            </h2>
+            <div
+              id="thiefImages"
+              class="flex flex-wrap gap-2 mt-4 justify-center"
             ></div>
           </div>
         </div>
@@ -226,5 +306,67 @@
         </div>
       </div>
     </div>
+    <iframe src="footer.html" class="w-full"></iframe>
+
+    <!-- Style for input fields, buttons, and file uploads -->
+    <style>
+      .input-field {
+        padding: 0.75rem;
+        border: 1px solid #cbd5e0;
+        border-radius: 0.375rem;
+        width: 100%;
+        margin-top: 0.5rem;
+        background-color: #f8fafc;
+      }
+
+      .input-file {
+        border: 1px dashed #4b5563;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        width: 100%;
+        margin-top: 0.5rem;
+        cursor: pointer;
+        background-color: #f1f5f9;
+      }
+
+      .action-button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+      }
+
+      .action-button:disabled {
+        background-color: #d1d5db;
+        cursor: not-allowed;
+      }
+
+      .download-button {
+        padding: 0.75rem 1.5rem;
+        font-weight: bold;
+        color: white;
+        border-radius: 0.375rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .download-button:hover {
+        background-color: #3b82f6;
+      }
+
+      @media (max-width: 768px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .w-full {
+          max-width: 90%;
+        }
+      }
+    </style>
   </body>
 </html>
