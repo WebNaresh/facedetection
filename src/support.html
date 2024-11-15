@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Detection Support</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Custom styles for better design */
+      .section-title {
+        font-family: "Arial", sans-serif;
+        font-size: 2rem;
+        color: #4c51bf;
+      }
+
+      .card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq-summary:hover {
+        color: #4c51bf;
+        cursor: pointer;
+      }
+
+      .button-hover:hover {
+        background-color: #4c51bf;
+        transition: background-color 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <!-- Navbar -->
+    <nav
+      class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-800 shadow-lg p-4"
+    >
+      <div class="container mx-auto flex items-center justify-between">
+        <!-- Brand Logo -->
+        <div class="flex items-center space-x-3">
+          <img
+            src="./img/police.jpeg"
+            alt="Logo"
+            class="h-16 w-16 rounded-full border-4 border-white shadow-lg"
+          />
+          <span class="text-white text-2xl font-bold"
+            >Image Detection System</span
+          >
+        </div>
+
+        <!-- Desktop Links -->
+        <div class="hidden md:flex space-x-8 items-center">
+          <a
+            href="index.html"
+            class="text-white hover:text-indigo-300 font-semibold text-lg transition duration-300"
+            >Home</a
+          >
+          <a
+            href="support.html"
+            class="text-white hover:text-indigo-300 font-semibold text-lg transition duration-300"
+            >Support</a
+          >
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button
+            id="mobileMenuButton"
+            class="text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Links -->
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden mt-4 bg-indigo-600 text-center space-y-4 rounded-lg shadow-xl"
+      >
+        <a
+          href="index.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300"
+          >Home</a
+        >
+        <a
+          href="about.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300"
+          >About</a
+        >
+        <a
+          href="documentation.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300"
+          >Documentation</a
+        >
+        <a
+          href="support.html"
+          class="block text-white py-3 hover:bg-indigo-500 rounded-lg transition duration-300"
+          >Support</a
+        >
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-16 space-y-12">
+      <!-- Overview Section -->
+      <section id="overview" class="card p-8 space-y-6 bg-white shadow-lg">
+        <h2 class="section-title text-center">
+          Overview of Image Detection Process
+        </h2>
+        <p class="text-gray-700 text-lg">
+          The image detection process uses advanced AI models to identify faces
+          in images. Once a face is detected, the system compares it against the
+          stored "thief" image to identify potential matches. This process is
+          crucial for surveillance systems, identity verification, and many
+          other security applications.
+        </p>
+        <ul class="list-disc pl-8 text-gray-700 space-y-3">
+          <li>
+            Upload a gallery of images and a single image of the suspected
+            thief.
+          </li>
+          <li>
+            The system detects faces in the gallery and compares them to the
+            thief's face.
+          </li>
+          <li>
+            If a match is found, the system highlights the image and stores
+            results for review.
+          </li>
+        </ul>
+      </section>
+
+      <!-- FAQ Section -->
+      <section id="faq" class="card p-8 space-y-6 bg-white shadow-lg">
+        <h2 class="section-title text-center">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <!-- FAQ Item 1 -->
+          <details class="p-4 border rounded-lg">
+            <summary class="faq-summary font-semibold text-lg text-indigo-600">
+              How accurate is the face detection process?
+            </summary>
+            <p class="mt-2 text-gray-700">
+              The face detection process uses cutting-edge deep learning models,
+              but accuracy may vary depending on image quality and angle. We
+              recommend high-resolution, clear images for best results.
+            </p>
+          </details>
+          <!-- FAQ Item 2 -->
+          <details class="p-4 border rounded-lg">
+            <summary class="faq-summary font-semibold text-lg text-indigo-600">
+              What should I do if the system doesn't detect the face?
+            </summary>
+            <p class="mt-2 text-gray-700">
+              Ensure the image is well-lit and the face is not obstructed. If
+              the issue persists, try uploading images with different angles of
+              the face for better recognition.
+            </p>
+          </details>
+          <!-- FAQ Item 3 -->
+          <details class="p-4 border rounded-lg">
+            <summary class="faq-summary font-semibold text-lg text-indigo-600">
+              How do I upload the thief's image?
+            </summary>
+            <p class="mt-2 text-gray-700">
+              You can upload the thief’s image in the 'Thief Image' section.
+              Make sure the image is of a single face for the best results.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="card p-8 space-y-6 bg-indigo-50">
+        <h2 class="section-title text-center">Contact Us for Support</h2>
+        <p class="text-center text-gray-600">
+          If you have any additional questions or need further assistance,
+          please don’t hesitate to reach out.
+        </p>
+        <form class="space-y-6 max-w-2xl mx-auto">
+          <div>
+            <label for="name" class="block text-gray-700 font-semibold"
+              >Full Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full p-4 border rounded-lg focus:ring-indigo-500"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-gray-700 font-semibold"
+              >Email Address</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full p-4 border rounded-lg focus:ring-indigo-500"
+              placeholder="Your Email"
+              required
+            />
+          </div>
+          <div>
+            <label for="message" class="block text-gray-700 font-semibold"
+              >Message</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              class="w-full p-4 border rounded-lg focus:ring-indigo-500"
+              placeholder="Describe your issue or question"
+              required
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-indigo-600 text-white p-4 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300"
+          >
+            Submit
+          </button>
+        </form>
+      </section>
+
+      <!-- Troubleshooting Section -->
+      <section
+        id="troubleshooting"
+        class="card p-8 space-y-6 bg-white shadow-lg"
+      >
+        <h2 class="section-title text-center">Troubleshooting</h2>
+        <ul class="list-disc pl-8 space-y-2">
+          <li class="text-gray-700">
+            Check if the images are high quality, well-lit, and have clear
+            facial features.
+          </li>
+          <li class="text-gray-700">
+            Ensure you upload a single face in the thief’s image to avoid
+            confusion.
+          </li>
+          <li class="text-gray-700">
+            If faces are not detected, try using different angles or clearer
+            images.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-800 text-white py-6">
+      <div class="container mx-auto text-center">
+        <p>&copy; 2024 Image Detection System. All rights reserved.</p>
+      </div>
+    </footer>
+    <!-- Tailwind CSS and JavaScript for Mobile Menu Toggle -->
+    <script>
+      const mobileMenuButton = document.getElementById("mobileMenuButton");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+    </script>
+  </body>
+</html>
