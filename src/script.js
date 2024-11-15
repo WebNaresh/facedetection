@@ -275,9 +275,37 @@ async function downloadThiefImagesAsPDF() {
 
   pdf.save("ThiefImages.pdf");
 }
-
 // Add event listener to the button after the DOM has fully loaded
 document.addEventListener("DOMContentLoaded", () => {
   const downloadButton = document.getElementById("downloadThiefImagesPdf");
   downloadButton.addEventListener("click", downloadThiefImagesAsPDF);
 });
+const mobileMenuButton = document.getElementById("mobileMenuButton");
+const mobileMenu = document.getElementById("mobileMenu");
+
+mobileMenuButton.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+});
+
+function updateDateTime() {
+  const now = new Date();
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
+  document.getElementById("dateTime").innerText = now.toLocaleDateString(
+    "en-US",
+    options
+  );
+}
+
+// Update date and time on page load and every second
+window.onload = function () {
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+};
