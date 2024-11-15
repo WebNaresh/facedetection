@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Detection - Navbar</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="bg-gray-800 shadow-lg">
+      <div class="container mx-auto flex py-3 items-center justify-between">
+        <!-- Brand Logo -->
+        <div class="flex items-center">
+          <img
+            src="./img/police.jpeg"
+            alt="Logo"
+            class="h-16 w-16 mr-2 rounded-full"
+          />
+          <span class="text-white text-lg font-semibold">
+            Image Detection System
+          </span>
+        </div>
+
+        <!-- Desktop Links -->
+        <div class="hidden md:flex space-x-6 items-center">
+          <a
+            href="index.html"
+            class="text-white hover:text-indigo-300 font-semibold transition duration-300"
+            >Home</a
+          >
+
+          <a
+            href="support.html"
+            class="text-white hover:text-indigo-300 font-semibold transition duration-300"
+            >Support</a
+          >
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button
+            id="mobileMenuButton"
+            class="text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Links -->
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden mt-4 bg-indigo-600 text-center space-y-2 rounded-lg shadow-lg"
+      >
+        <a
+          href="#"
+          class="block text-white py-2 hover:bg-indigo-500 rounded transition duration-300"
+          >Home</a
+        >
+        <a
+          href="#"
+          class="block text-white py-2 hover:bg-indigo-500 rounded transition duration-300"
+          >About</a
+        >
+        <a
+          href="#"
+          class="block text-white py-2 hover:bg-indigo-500 rounded transition duration-300"
+          >Documentation</a
+        >
+        <a
+          href="#"
+          class="block text-white py-2 hover:bg-indigo-500 rounded transition duration-300"
+          >Support</a
+        >
+      </div>
+    </nav>
+
+    <script>
+      // Toggle mobile menu visibility
+      document
+        .getElementById("mobileMenuButton")
+        .addEventListener("click", () => {
+          const mobileMenu = document.getElementById("mobileMenu");
+          mobileMenu.classList.toggle("hidden");
+        });
+    </script>
+  </body>
+</html>
